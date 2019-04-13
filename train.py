@@ -6,45 +6,41 @@ import data
 import os
 
 from sklearn.model_selection import train_test_split
-#response = requests.get('http://dev.newsplay.info/api/Values?startid=734327&endid=734327')
-#response = requests.get('https://www.google.com/search?q=On+ne+pourra+pas+reprocher+aux+S%C3%A9nateurs+de+ne+pas+se+sentir+comme+les+n%C3%A9glig%C3%A9s+dans+leur+s%C3%A9rie+de+premier+tour+face+au+Tricolore.&oq=On+ne+pourra+pas+reprocher+aux+S%C3%A9nateurs+de+ne+pas+se+sentir+comme+les+n%C3%A9glig%C3%A9s+dans+leur+s%C3%A9rie+de+premier+tour+face+au+Tricolore')
-
-#soup = bs4.BeautifulSoup(response.content)
-#href = soup.find('h3').find('a').get('href')
-#print(href)
 
 def write_file(text, filename):
     with open(os.path.join("data/articles", filename), "w", encoding="utf-8") as f:
         for i in range(len(text)):
             f.write(text[i]['Description'])
 
-def get_training_and_testing_sets(file_list):
-    split = 0.7
-    shuffle(file_list)
-    split_index = floor(len(file_list) * split)
-    training = file_list[:split_index]
-    testing = file_list[split_index:]
-    return training, testing
+def split_train():
+    with open( "data/jm/train.pickle", "rb" ) as f:
+        articles = pickle.load(f)
+        
+    train, test = train_test_split(articles, test_size=0.1)
 
-def read_pickle():
+    with open('data/jm/new_train.pickle', 'wb') as f:
+        pickle.dump(train, f)
+
+    with open('data/jm/test.pickle', 'wb') as f:
+        pickle.dump(test, f)
+
+def read_pickle(path, dest):
       
-      with open( "data/jm/train.pickle", "rb" ) as f:
+    with open(path, "rb" ) as f:
         train = pickle.load(f)
-    
-      with open( "data/jm/valid.pickle", "rb" ) as f:
-        valid = pickle.load(f)
 
-      print(len(train))
-      print(len(valid))
+    text = ""
+    for article in train:
+        text += "\n".join([" ".join(sentence) for sentence in article.text])
 
+    with open(dest, "w", encoding="utf-8" ) as f:
+        f.write(text)
 
 
 def json_to_text():
 
     with open( "data/articles/articles.pickle", "rb" ) as f:
         articles = pickle.load(f)
-
-   # corpus = data.Corpus()
 
     train, valid = train_test_split(articles, test_size=0.1)
     train, test = train_test_split(train, test_size=0.1)
@@ -67,5 +63,7 @@ def fetch():
         pickle.dump(all_json, f)
 
 
-#read_pickle()
-json_to_text()
+#read_pickle("data/jm/train.pickle", "data/jm/train.txt")
+#read_pickle("data/jm/test.pickle", "data/jm/test.txt")
+#read_pickle("data/jm/valid.pickle", "data/jm/valid.txt")
+#json_to_text()
