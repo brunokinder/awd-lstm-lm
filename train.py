@@ -12,16 +12,16 @@ def write_file(text, filename):
         for i in range(len(text)):
             f.write(text[i]['Description'])
 
-def split_train():
-    with open( "data/jm/train.pickle", "rb" ) as f:
+def split_train(path, split_size=0.1):
+    with open(path, "rb" ) as f:
         articles = pickle.load(f)
         
-    train, test = train_test_split(articles, test_size=0.1)
+    train, test = train_test_split(articles, test_size=split_size)
 
-    with open('data/jm/new_train.pickle', 'wb') as f:
+    with open(f'{path}_str(1-split_size)', 'wb') as f:
         pickle.dump(train, f)
 
-    with open('data/jm/test.pickle', 'wb') as f:
+    with open(f'{path}_str(split_size)'', 'wb') as f:
         pickle.dump(test, f)
 
 def read_pickle(path, dest):
