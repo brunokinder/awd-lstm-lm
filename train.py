@@ -37,9 +37,9 @@ def read_pickle(path, dest):
         f.write(text)
 
 
-def json_to_text():
+def json_to_text(path_pickle):
 
-    with open( "data/articles/articles.pickle", "rb" ) as f:
+    with open(path_pickle, "rb" ) as f:
         articles = pickle.load(f)
 
     train, valid = train_test_split(articles, test_size=0.1)
@@ -63,7 +63,7 @@ def fetch():
         pickle.dump(all_json, f)
 
 
-#read_pickle("data/jm/train.pickle", "data/jm/train.txt")
-#read_pickle("data/jm/test.pickle", "data/jm/test.txt")
-#read_pickle("data/jm/valid.pickle", "data/jm/valid.txt")
+#read_pickle("data/jm/new_train.pickle", "data/jm/train.txt")
+read_pickle("data/jm/test.pickle", "data/jm/test.txt")
+read_pickle("data/jm/valid.pickle", "data/jm/valid.txt")
 #json_to_text()
