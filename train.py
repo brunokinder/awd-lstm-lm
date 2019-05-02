@@ -21,7 +21,7 @@ def split_train(path, split_size=0.1):
     with open(f'{path}_str(1-split_size)', 'wb') as f:
         pickle.dump(train, f)
 
-    with open(f'{path}_str(split_size)'', 'wb') as f:
+    with open(f'{path}_str(split_size)', 'wb') as f:
         pickle.dump(test, f)
 
 def read_pickle(path, dest):
@@ -63,7 +63,8 @@ def fetch():
         pickle.dump(all_json, f)
 
 
-#read_pickle("data/jm/new_train.pickle", "data/jm/train.txt")
+#read_pickle("C:\\Users\\almen\\Documents\\data\\bkp\\jm\\train.pickle", "data/jm/train.txt")
+read_pickle("C:\\Users\\almen\\Documents\\data\\bkp\\articles\\articles.pickle", "data/jm/train.txt")
 read_pickle("data/jm/test.pickle", "data/jm/test.txt")
 read_pickle("data/jm/valid.pickle", "data/jm/valid.txt")
 #json_to_text()
